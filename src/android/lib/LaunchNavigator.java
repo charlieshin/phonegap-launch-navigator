@@ -78,6 +78,7 @@ public class LaunchNavigator {
     public final String BAIDU = "baidu";
     public final String TAXIS_99 = "taxis_99";
     public final String GAODE = "gaode";
+    public final String GRAB = "grab";
 
 
     public final Map<String, String> supportedAppPackages;
@@ -97,6 +98,7 @@ public class LaunchNavigator {
         _supportedAppPackages.put(BAIDU, "com.baidu.BaiduMap");
         _supportedAppPackages.put(TAXIS_99, "com.taxis99");
         _supportedAppPackages.put(GAODE, "com.autonavi.minimap");
+        _supportedAppPackages.put(GRAB, "com.grabtaxi.passenger");
         supportedAppPackages = Collections.unmodifiableMap(_supportedAppPackages);
     }
 
@@ -117,6 +119,7 @@ public class LaunchNavigator {
         _supportedAppNames.put(BAIDU, "Baidu Maps");
         _supportedAppNames.put(TAXIS_99, "99 Taxi");
         _supportedAppNames.put(GAODE, "Gaode Maps (Amap)");
+        _supportedAppNames.put(GRAB, "Grab");
         supportedAppNames = Collections.unmodifiableMap(_supportedAppNames);
     }
 
@@ -278,6 +281,8 @@ public class LaunchNavigator {
             error = launchGaode(params);
         }else if(appName.equals(TAXIS_99)){
             error = launch99Taxis(params);
+        }else if(appName.equals(GRAB)){
+            error = launchGrab(params);
         }else{
             error = launchApp(params);
         }
@@ -1560,6 +1565,99 @@ public class LaunchNavigator {
             String msg = e.getMessage();
             if(msg.contains(NO_APP_FOUND)){
                 msg = "99 Taxis app is not installed on this device";
+            }
+            return msg;
+        }
+    }
+
+    private String launchGrab(JSONObject params) throws Exception{
+        try {
+            String destAddress = null;
+            String destLatLon = null;
+            String startAddress = null;
+            String startLatLon = null;
+            String destNickname = params.getString("destNickname");
+            String startNickname = params.getString("startNickname");
+
+            String dType = params.getString("dType");
+            String sType = params.getString("sType");
+
+            String url = "grab://open?screenType=BOOKING";
+            String logMsg = "Using Grab to navigate";
+
+            // Destination
+            logMsg += " to";
+            if(dType.equals("name")){
+                destAddress = getLocationFromName(params, "dest");
+                logMsg += " '"+destAddress+"'";
+                try{
+                    destLatLon = geocodeAddressToLatLon(params.getString("dest"));
+                }catch(Exception e){
+                    return "Unable to geocode destination address to coordinates: " + e.getMessage();
+                }
+            }else{
+                destLatLon = getLocationFromPos(params, "dest");
+            }
+            logMsg += " ["+destLatLon+"]";
+
+            String[] destPos = splitLatLon(destLatLon);
+            url += "&dropoff_lat=" + destPos[0] + "&dropoff_lng=" + destPos[1];
+
+            if(!isNull(destNickname)){
+                url += "&dropoff_name=" + Uri.encode(destNickname);
+                logMsg += " ("+destNickname+")";
+            }
+
+            // Start
+            logMsg += " from";
+            if(!sType.equals("none")){
+                if(sType.equals("name")){
+                    startAddress = getLocationFromName(params, "start");
+                    logMsg += " '"+startAddress+"'";
+                    try{
+                        startLatLon = geocodeAddressToLatLon(params.getString("start"));
+                    }catch(Exception e){
+                        startLatLon = null;
+                    }
+                }else{
+                    startLatLon = getLocationFromPos(params, "start");
+                }
+
+                if(!isNull(startLatLon)){
+                    logMsg += " ["+startLatLon+"]";
+                    String[] startPos = splitLatLon(startLatLon);
+                    url += "&pickup_lat=" + startPos[0] + "&pickup_lng=" + startPos[1];
+
+                    if(!isNull(startNickname)){
+                        url += "&pickup_name="+Uri.encode(startNickname);
+                        logMsg += " ("+startNickname+")";
+                    }
+                }
+            }else{
+                // my location
+                url += "&pickup=my_location";
+                logMsg += " current location";
+            }
+
+            // Extras
+            String extras = parseExtrasToUrl(params);
+            if(!isNull(extras)){
+                url += extras;
+                logMsg += " - extras="+extras;
+            }
+
+            logger.debug(logMsg);
+            logger.debug("URI: " + url);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.setPackage(supportedAppPackages.get(GRAB));
+            invokeIntent(intent);
+            return null;
+
+        }catch( JSONException e ) {
+            String msg = e.getMessage();
+            if(msg.contains(NO_APP_FOUND)){
+                msg = "Grab app is not installed on this device";
             }
             return msg;
         }

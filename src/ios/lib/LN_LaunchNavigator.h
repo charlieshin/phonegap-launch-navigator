@@ -50,8 +50,9 @@ typedef NS_ENUM(NSUInteger, LNApp) {
     LNAppMapsMe,          // MAPS.ME
     LNAppCabify,          // Cabify
     LNAppBaidu,           // Baidu
-	LNAppTaxis99,           // 99 Taxi
-	LNAppGaode           // Gaode (Amap)
+	LNAppTaxis99,         // 99 Taxi
+	LNAppGaode,           // Gaode (Amap)
+	LNAppGrab             // Grab
 };
 
 static NSString*const LOG_TAG = @"LN_LaunchNavigator[native]";

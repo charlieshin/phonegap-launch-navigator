@@ -103,6 +103,7 @@ static NSDictionary* extras;
          @"waze",
          @"yandex",
          @"uber",
+         @"grab",
          @"tomtom",
          @"sygic",
          @"here_maps",
@@ -133,7 +134,8 @@ static NSDictionary* extras;
          @(LNAppCabify): LNLocTypeCoords,
          @(LNAppBaidu): LNLocTypeBoth,
          @(LNAppTaxis99): LNLocTypeCoords,
-         @(LNAppGaode): LNLocTypeCoords
+         @(LNAppGaode): LNLocTypeCoords,
+         @(LNAppGrab): LNLocTypeCoords,
          };
         LNEmptyCoord = CLLocationCoordinate2DMake(LNEmptyLocation, LNEmptyLocation);
     }
@@ -846,6 +848,44 @@ static NSDictionary* extras;
     [self openScheme:url];
 }
 
+-(void)launchGrab {
+    // Base URL
+    NSMutableString* url = [NSMutableString stringWithFormat:@"%@open?screenType=BOOKING",
+                             [self urlPrefixForMapApp:LNAppGrab]];
+
+    // Destination
+    [url appendFormat:@"&dropoff_lat=%f&dropoff_lng=%f",
+        destCoord.latitude, destCoord.longitude];
+
+    if(![self isNull:destName]){
+        [url appendFormat:@"&dropoff_name=%@",
+            [destName stringByAddingPercentEncodingWithAllowedCharacters:
+                [NSCharacterSet URLQueryAllowedCharacterSet]]];
+    }
+
+    // Start
+    if(startIsCurrentLocation){
+        [url appendFormat:@"&pickup=my_location"];
+    } else {
+        [url appendFormat:@"&pickup_lat=%f&pickup_lng=%f",
+            startCoord.latitude, startCoord.longitude];
+
+        if(![self isNull:startName]){
+            [url appendFormat:@"&pickup_name=%@",
+                [startName stringByAddingPercentEncodingWithAllowedCharacters:
+                    [NSCharacterSet URLQueryAllowedCharacterSet]]];
+        }
+    }
+
+    // Extras
+    if(![self isEmptyDictionary:extras]){
+        [url appendFormat:@"%@", [self extrasToQueryParams:extras]];
+    }
+
+    [self logDebugURI:url];
+    [self openScheme:url];
+}
+
 /**************
  * Utilities
  **************/
@@ -1024,6 +1064,8 @@ static NSDictionary* extras;
         [self launchYandex];
     }else if(app == LNAppUber){
         [self launchUber];
+	}else if(app == LNAppGrab){
+	    [self launchGrab];
     }else if(app == LNAppTomTom){
         [self launchTomTom];
     }else if(app == LNAppSygic){
@@ -1104,6 +1146,9 @@ static NSDictionary* extras;
         case LNAppTaxis99:
         name = @"taxis_99";
         break;
+        case LNAppGrab:
+        name = @"grab";
+        break;
         default:
         [NSException raise:NSGenericException format:@"Unexpected app name"];
         
@@ -1150,6 +1195,8 @@ static NSDictionary* extras;
         cmmName = LNAppGaode;
     }else if([lnName isEqual: @"taxis_99"]){
         cmmName = LNAppTaxis99;
+    }else if([lnName isEqual: @"grab"]){
+        cmmName = LNAppGrab;
     }else{
         [NSException raise:NSGenericException format:@"Unexpected app name: %@", lnName];
     }
@@ -1378,7 +1425,10 @@ static NSDictionary* extras;
 
         case LNAppTaxis99:
         return @"taxis99://";
-        
+
+        case LNAppGrab:
+        return @"grab://";
+
         default:
         return nil;
     }
