@@ -115,7 +115,8 @@ ln.APP = {
     CABIFY: "cabify",
     BAIDU: "baidu",
     TAXIS_99: "taxis_99",
-    GAODE: "gaode"
+    GAODE: "gaode",
+    GRAB: "grab"
 };
 
 /**
@@ -138,7 +139,8 @@ ln.APPS_BY_PLATFORM[ln.PLATFORM.ANDROID] = [
     ln.APP.CABIFY,
     ln.APP.BAIDU,
     ln.APP.TAXIS_99,
-    ln.APP.GAODE
+    ln.APP.GAODE,
+    ln.APP.GRAB
 ];
 ln.APPS_BY_PLATFORM[ln.PLATFORM.IOS] = [
     ln.APP.USER_SELECT,
@@ -159,7 +161,8 @@ ln.APPS_BY_PLATFORM[ln.PLATFORM.IOS] = [
     ln.APP.CABIFY,
     ln.APP.BAIDU,
     ln.APP.TAXIS_99,
-    ln.APP.GAODE
+    ln.APP.GAODE,
+    ln.APP.GRAB
 ];
 ln.APPS_BY_PLATFORM[ln.PLATFORM.WINDOWS] = [
     ln.APP.BING_MAPS
@@ -199,6 +202,7 @@ ln.APP_NAMES[ln.APP.CABIFY] = "Cabify";
 ln.APP_NAMES[ln.APP.BAIDU] = "Baidu Maps";
 ln.APP_NAMES[ln.APP.TAXIS_99] = "99 Taxi";
 ln.APP_NAMES[ln.APP.GAODE] = "Gaode Maps (Amap)";
+ln.APP_NAMES[ln.APP.GRAB] = "Grab";
 
 /**
  * All possible transport modes
@@ -321,7 +325,8 @@ ln.SUPPORTS_START[ln.PLATFORM.ANDROID] = [
     ln.APP.CABIFY,
     ln.APP.BAIDU,
     ln.APP.TAXIS_99,
-    ln.APP.GAODE
+    ln.APP.GAODE,
+    ln.APP.GRAB
 ];
 ln.SUPPORTS_START[ln.PLATFORM.IOS] = [
     ln.APP.USER_SELECT,
@@ -338,7 +343,8 @@ ln.SUPPORTS_START[ln.PLATFORM.IOS] = [
     ln.APP.CABIFY,
     ln.APP.BAIDU,
     ln.APP.TAXIS_99,
-    ln.APP.GAODE
+    ln.APP.GAODE,
+    ln.APP.GRAB
 ];
 ln.SUPPORTS_START[ln.PLATFORM.WINDOWS] = [
     ln.APP.BING_MAPS
@@ -358,7 +364,8 @@ ln.SUPPORTS_START_NAME[ln.PLATFORM.ANDROID] = [
     ln.APP.CABIFY,
     ln.APP.BAIDU,
     ln.APP.TAXIS_99,
-    ln.APP.GAODE
+    ln.APP.GAODE,
+    ln.APP.GRAB
 ];
 ln.SUPPORTS_START_NAME[ln.PLATFORM.IOS] = [
     ln.APP.USER_SELECT,
@@ -370,7 +377,8 @@ ln.SUPPORTS_START_NAME[ln.PLATFORM.IOS] = [
     ln.APP.CABIFY,
     ln.APP.BAIDU,
     ln.APP.TAXIS_99,
-    ln.APP.GAODE
+    ln.APP.GAODE,
+    ln.APP.GRAB
 ];
 
 /**
@@ -388,7 +396,8 @@ ln.SUPPORTS_DEST_NAME[ln.PLATFORM.ANDROID] = [
     ln.APP.CABIFY,
     ln.APP.BAIDU,
     ln.APP.TAXIS_99,
-    ln.APP.GAODE
+    ln.APP.GAODE,
+    ln.APP.GRAB
 ];
 ln.SUPPORTS_DEST_NAME[ln.PLATFORM.IOS] = [
     ln.APP.USER_SELECT,
@@ -402,7 +411,8 @@ ln.SUPPORTS_DEST_NAME[ln.PLATFORM.IOS] = [
     ln.APP.CABIFY,
     ln.APP.BAIDU,
     ln.APP.TAXIS_99,
-    ln.APP.GAODE
+    ln.APP.GAODE,
+    ln.APP.GRAB
 ];
 
 /**
