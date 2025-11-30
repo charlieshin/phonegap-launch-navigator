@@ -854,11 +854,11 @@ static NSDictionary* extras;
                              [self urlPrefixForMapApp:LNAppGrab]];
 
     // Destination
-    [url appendFormat:@"&dropoff_lat=%f&dropoff_lng=%f",
+    [url appendFormat:@"&dropoffLat=%f&dropoffLng=%f",
         destCoord.latitude, destCoord.longitude];
 
     if(![self isNull:destName]){
-        [url appendFormat:@"&dropoff_name=%@",
+        [url appendFormat:@"&dropoffName=%@",
             [destName stringByAddingPercentEncodingWithAllowedCharacters:
                 [NSCharacterSet URLQueryAllowedCharacterSet]]];
     }
@@ -867,11 +867,11 @@ static NSDictionary* extras;
     if(startIsCurrentLocation){
         [url appendFormat:@"&pickup=my_location"];
     } else {
-        [url appendFormat:@"&pickup_lat=%f&pickup_lng=%f",
+        [url appendFormat:@"&pickupLat=%f&pickupLng=%f",
             startCoord.latitude, startCoord.longitude];
 
         if(![self isNull:startName]){
-            [url appendFormat:@"&pickup_name=%@",
+            [url appendFormat:@"&pickupName=%@",
                 [startName stringByAddingPercentEncodingWithAllowedCharacters:
                     [NSCharacterSet URLQueryAllowedCharacterSet]]];
         }
