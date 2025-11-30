@@ -1601,10 +1601,10 @@ public class LaunchNavigator {
             logMsg += " ["+destLatLon+"]";
 
             String[] destPos = splitLatLon(destLatLon);
-            url += "&dropoffLat=" + destPos[0] + "&dropoffLng=" + destPos[1];
+            url += "&dlat=" + destPos[0] + "&dlng=" + destPos[1];
 
             if(!isNull(destNickname)){
-                url += "&dropoffName=" + Uri.encode(destNickname);
+                url += "&dname=" + Uri.encode(destNickname);
                 logMsg += " ("+destNickname+")";
             }
 
@@ -1626,10 +1626,10 @@ public class LaunchNavigator {
                 if(!isNull(startLatLon)){
                     logMsg += " ["+startLatLon+"]";
                     String[] startPos = splitLatLon(startLatLon);
-                    url += "&pickupLat=" + startPos[0] + "&pickupLng=" + startPos[1];
+                    url += "&plat=" + startPos[0] + "&plng=" + startPos[1];
 
                     if(!isNull(startNickname)){
-                        url += "&pickupName="+Uri.encode(startNickname);
+                        url += "&pname="+Uri.encode(startNickname);
                         logMsg += " ("+startNickname+")";
                     }
                 }
